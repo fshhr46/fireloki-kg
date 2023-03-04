@@ -23,6 +23,15 @@ def process_age(df):
     df['Age'] = age_feat
 
 
+
+def process_fare(df):
+    def helper(fare: float):
+        if pd.isna(fare):
+            return 0
+        return fare
+    fare_feat = df['Fare'].map(helper)
+    df['Fare'] = fare_feat
+
 def process_embarked(df):
     def helper(embarked: str):
         valid_codes = 'CQS'
@@ -135,6 +144,8 @@ def process_ticket(df):
 
 def extract_feature(df):
     process_age(df)
+
+    process_fare(df)
 
     process_sex(df)
 
