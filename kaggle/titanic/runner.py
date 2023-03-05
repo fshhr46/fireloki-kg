@@ -6,6 +6,7 @@ import numpy as np
 import sklearn
 import matplotlib
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import mean_squared_error
 
 # kaggle specific
@@ -66,10 +67,16 @@ def train_model(train_partition, eval_partition, y_column, columns):
     train_x = train_partition.loc[:, columns]
     train_y = train_partition.loc[:, [y_column]].values.reshape((len(train_partition),))
 
-    model = LogisticRegression(C=1e5)
+
     model = LogisticRegression(max_iter=1000,
                                solver='lbfgs',
                                random_state=43)
+
+    model = RandomForestClassifier(criterion='entropy',
+                                    n_estimators=5000,
+                                    random_state=1,
+                                    n_jobs=-1)
+
     model.fit(train_x, train_y)
 
     eval_x = eval_partition.loc[:, columns]
